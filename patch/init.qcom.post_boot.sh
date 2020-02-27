@@ -2069,6 +2069,7 @@ case "$target" in
             # cpuset settings
             echo 0-3 > /dev/cpuset/background/cpus
             echo 0-3 > /dev/cpuset/system-background/cpus
+            echo 0-3 > /dev/cpuset/foreground/cpus
             # choose idle CPU for top app tasks
             echo 1 > /dev/stune/top-app/schedtune.prefer_idle
 
