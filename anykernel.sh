@@ -30,6 +30,24 @@ ramdisk_compression=auto;
 set_perm_recursive 0 0 755 644 $ramdisk/*;
 set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 
+# backup files
+if [ ! -f /vendor/bin/init.qcom.post_boot.sh.bkp ]; then
+	cp -rpf /vendor/bin/init.qcom.post_boot.sh /vendor/bin/init.qcom.post_boot.sh.bkp;
+fi
+if [ ! -f /vendor/etc/perf/perfboostsconfig.xml.bkp ]; then
+	cp -rpf /vendor/etc/perf/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml.bkp;
+fi
+
+# replace files
+cp -rpf $patch/init.qcom.post_boot.sh /vendor/bin/init.qcom.post_boot.sh;
+cp -rpf $patch/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml;
+cp -rpf $patch/perf-profile0.conf /vendor/etc/perf/perf-profile0.conf;
+
+
+# set up permissions
+chmod 0644 vendor/etc/perf/perf-profile0.conf;
+chmod 0777 /vendor/bin/init.qcom.post_boot.sh;
+chmod 0644 /vendor/etc/perf/perfboostsconfig.xml;
 
 ## AnyKernel install
 dump_boot;
