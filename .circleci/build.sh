@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Cloning dependencies"
-git clone -b master https://github.com/Yasir-siddiqui/android_kernel_xiaomi_lavender kernel
+git clone --depth=1 https://github.com/Yasir-siddiqui/AnyKernel3 -b jitter-fix kernel
 cd kernel
 git clone --depth=1 https://github.com/kdrag0n/proton-clang clang
 git clone --depth=1 https://github.com/Yasir-siddiqui/AnyKernel3 AnyKernel
