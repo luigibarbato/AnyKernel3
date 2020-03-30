@@ -19,10 +19,9 @@
  * sched_idle_set_state - Record idle state for the current CPU.
  * @idle_state: State to record.
  */
-void sched_idle_set_state(struct cpuidle_state *idle_state, int index)
+void sched_idle_set_state(struct cpuidle_state *idle_state)
 {
 	idle_set_state(this_rq(), idle_state);
-	idle_set_state_idx(this_rq(), index);
 }
 
 static int __read_mostly cpu_idle_force_poll;
@@ -167,13 +166,11 @@ static void cpuidle_idle_call(void)
 	 * timekeeping to prevent timer interrupts from kicking us out of idle
 	 * until a proper wakeup interrupt happens.
 	 */
-	if (idle_should_freeze() || dev->use_deepest_state) {
-		if (idle_should_freeze()) {
-			entered_state = cpuidle_enter_freeze(drv, dev);
-			if (entered_state > 0) {
-				local_irq_enable();
-				goto exit_idle;
-			}
+	if (idle_should_freeze()) {
+		entered_state = cpuidle_enter_freeze(drv, dev);
+		if (entered_state >= 0) {
+			local_irq_enable();
+			goto exit_idle;
 		}
 
 		next_state = cpuidle_find_deepest_state(drv, dev);
